@@ -38,6 +38,21 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
     }
   }
 
+  // Compile display list.
+  list = glGenLists(1);
+  glNewList(list, GL_COMPILE);
+  glBegin(GL_QUADS);
+  for (size_t i = 0; i < VERTICES; i++) {
+    glVertex3d(
+      vertices[i].position[0],
+      vertices[i].position[1],
+      vertices[i].position[2]
+    );
+  }
+  glEnd();
+  glEndList();
+
+  /*
   // Compile vertex buffer object.
   glGenBuffers(1, &vertexbuffer);
   glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -53,6 +68,7 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, INDICES * sizeof(GLuint), indices, GL_STATIC_DRAW);
   delete indices;
+  */
 }
 
 
@@ -65,8 +81,11 @@ Quadtree::~Quadtree() {
 
 
 void Quadtree::render() {
+  glCallList(list);
+  /*
   glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
   glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, position));
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
   glDrawElements(GL_QUADS, INDICES, GL_UNSIGNED_INT, (void *)0);
+  */
 }

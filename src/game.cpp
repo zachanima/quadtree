@@ -46,12 +46,5 @@ void Game::render() {
   glColor3d(1., 1., 1.);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   quadtree[0]->render();
-  /*
-  glBegin(GL_TRIANGLES);
-  glVertex3d(-1., -1., 0.);
-  glVertex3d( 1., -1., 0.);
-  glVertex3d( 0.,  1., 0.);
-  glEnd();
-  */
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
