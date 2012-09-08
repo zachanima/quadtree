@@ -1,6 +1,8 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include <cmath>
+
 #include "lwcppgl/display.hpp"
 #include "lwcppgl/keyboard.hpp"
 
