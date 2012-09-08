@@ -37,6 +37,22 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
       i++;
     }
   }
+
+  // Compile vertex buffer object.
+  glGenBuffers(1, &vertexbuffer);
+  glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+  glBufferData(GL_ARRAY_BUFFER, VERTICES * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, position));
+
+  GLuint *indices = new GLuint[INDICES];
+  for (size_t i = 0; i < INDICES; i++) {
+    indices[i] = i;
+  }
+  glGenBuffers(1, &indexbuffer);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, INDICES * sizeof(GLuint), indices, GL_STATIC_DRAW);
+  delete indices;
 }
 
 
@@ -49,13 +65,8 @@ Quadtree::~Quadtree() {
 
 
 void Quadtree::render() {
-  glBegin(GL_QUADS);
-  for (size_t i = 0; i < INDICES; i++) {
-    glVertex3d(
-      vertices[i].position[0],
-      vertices[i].position[1],
-      vertices[i].position[2]
-    );
-  }
-  glEnd();
+  glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+  glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, position));
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
+  glDrawElements(GL_QUADS, INDICES, GL_UNSIGNED_INT, (void *)0);
 }

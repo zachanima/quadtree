@@ -18,6 +18,8 @@ class Quadtree {
   private:
     Vertex *vertices;
     GLdouble *box;
+    GLuint vertexbuffer;
+    GLuint indexbuffer;
 };
 
 #endif // QUADTREE_HPP
