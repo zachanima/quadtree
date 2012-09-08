@@ -15,16 +15,20 @@ class Quadtree {
   public:
     Quadtree(GLdouble, GLdouble, GLdouble, GLdouble);
     ~Quadtree();
+    void update(GLdouble, GLdouble, GLdouble);
     void render();
 
   private:
     Vertex *vertices;
     GLdouble *box;
-    /*
+    Quadtree *children[4];
     GLuint vertexbuffer;
     GLuint indexbuffer;
-    */
+    /*
     GLuint list;
+    */
+    void divide();
+    GLdouble distance2(GLdouble, GLdouble, GLdouble);
 };
 
 #endif // QUADTREE_HPP

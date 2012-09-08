@@ -18,11 +18,13 @@ void Game::update() {
   ticks = SDL_GetTicks();
 
   if (Keyboard::isKeyDown(KEY_W)) {
+    quadtree[0]->update(camera.x, camera.y, camera.z);
     camera.x += sin(camera.b) * cos(camera.a) * 0.002 * delta;
     camera.y -= sin(camera.a)                 * 0.002 * delta;
     camera.z -= cos(camera.b) * cos(camera.a) * 0.002 * delta;
   }
   if (Keyboard::isKeyDown(KEY_S)) {
+    quadtree[0]->update(camera.x, camera.y, camera.z);
     camera.x -= sin(camera.b) * cos(camera.a) * 0.002 * delta;
     camera.y += sin(camera.a)                 * 0.002 * delta;
     camera.z += cos(camera.b) * cos(camera.a) * 0.002 * delta;
