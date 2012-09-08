@@ -1,6 +1,8 @@
 #ifndef QUADTREE_HPP
 #define QUADTREE_HPP
 
+#include <cmath>
+
 #include "lwcppgl/display.hpp"
 
 #include "vertex.hpp"

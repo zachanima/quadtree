@@ -38,6 +38,15 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
     }
   }
 
+  for (size_t i = 0; i < VERTICES; i++) {
+    const GLdouble x2 = vertices[i].position[0] * vertices[i].position[0];
+    const GLdouble y2 = vertices[i].position[1] * vertices[i].position[1];
+    const GLdouble z2 = vertices[i].position[2] * vertices[i].position[2];
+    vertices[i].position[0] *= sqrt(1 - y2 / 2 - z2 / 2 + y2 * z2 / 3);
+    vertices[i].position[1] *= sqrt(1 - x2 / 2 - z2 / 2 + x2 * z2 / 3);
+    vertices[i].position[2] *= sqrt(1 - x2 / 2 - y2 / 2 + x2 * y2 / 3);
+  }
+
   // Compile display list.
   list = glGenLists(1);
   glNewList(list, GL_COMPILE);
