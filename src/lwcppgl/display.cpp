@@ -49,10 +49,10 @@ void Display::orthogonal() {
 }
 
 void Display::perspective() {
-  const float FOV = 45.0f;
-  const float ASPECT = static_cast<float>(width) / static_cast<float>(height);
-  const float ZNEAR = 0.1f;
-  const float ZFAR = 1000.0f;
+  const double FOV = 45.0;
+  const double ASPECT = static_cast<double>(width) / static_cast<double>(height);
+  const double ZNEAR = 0.0000152587890625;
+  const double ZFAR = 65536.;
 
   glViewport(0, 0, width, height);
   glMatrixMode(GL_PROJECTION);

@@ -1,8 +1,12 @@
 #ifndef LWCPPGL_DISPLAY_HPP
 #define LWCPPGL_DISPLAY_HPP
 
+#define GL_GLEXT_PROTOTYPES
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
+#include <GL/glext.h>
+
 
 #include "keyboard.hpp"
 
