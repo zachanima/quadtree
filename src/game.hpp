@@ -2,6 +2,9 @@
 #define GAME_HPP
 
 #include "lwcppgl/display.hpp"
+#include "lwcppgl/keyboard.hpp"
+
+#include "camera.hpp"
 
 class Game {
   public:
@@ -11,6 +14,7 @@ class Game {
 
   private:
     static size_t ticks;
+    static Camera camera;
 };
 
 #endif // GAME_HPP
