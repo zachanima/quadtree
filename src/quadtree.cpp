@@ -76,6 +76,11 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
 Quadtree::~Quadtree() {
   delete box;
   delete vertices;
+  glDeleteLists(list, 1);
+  /*
+  glDeleteBuffers(1, &vertexbuffer);
+  glDeleteBuffers(1, &indexbuffer);
+  */
 }
 
 
