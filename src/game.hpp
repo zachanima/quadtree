@@ -7,6 +7,7 @@
 #include "lwcppgl/keyboard.hpp"
 
 #include "camera.hpp"
+#include "quadtree.hpp"
 
 class Game {
   public:
@@ -17,6 +18,7 @@ class Game {
   private:
     static size_t ticks;
     static Camera camera;
+    static Quadtree *quadtree[6];
 };
 
 #endif // GAME_HPP
