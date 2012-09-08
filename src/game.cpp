@@ -9,25 +9,29 @@ void Game::initialize() {
   camera.z = 8.;
 }
 
+
+
 void Game::update() {
   const size_t delta = SDL_GetTicks() - ticks;
   ticks = SDL_GetTicks();
 
   if (Keyboard::isKeyDown(KEY_W)) {
-    camera.x += sin(camera.b) * cos(camera.a) * 0.000002 * ticks;
-    camera.y -= sin(camera.a)                 * 0.000002 * ticks;
-    camera.z -= cos(camera.b) * cos(camera.a) * 0.000002 * ticks;
+    camera.x += sin(camera.b) * cos(camera.a) * 0.002 * delta;
+    camera.y -= sin(camera.a)                 * 0.002 * delta;
+    camera.z -= cos(camera.b) * cos(camera.a) * 0.002 * delta;
   }
   if (Keyboard::isKeyDown(KEY_S)) {
-    camera.x -= sin(camera.b) * cos(camera.a) * 0.000002 * ticks;
-    camera.y += sin(camera.a)                 * 0.000002 * ticks;
-    camera.z += cos(camera.b) * cos(camera.a) * 0.000002 * ticks;
+    camera.x -= sin(camera.b) * cos(camera.a) * 0.002 * delta;
+    camera.y += sin(camera.a)                 * 0.002 * delta;
+    camera.z += cos(camera.b) * cos(camera.a) * 0.002 * delta;
   }
-  if (Keyboard::isKeyDown(KEY_UP))    { camera.a -= 0.0000002 * ticks; }
-  if (Keyboard::isKeyDown(KEY_DOWN))  { camera.a += 0.0000002 * ticks; }
-  if (Keyboard::isKeyDown(KEY_A))     { camera.b -= 0.0000002 * ticks; }
-  if (Keyboard::isKeyDown(KEY_D))     { camera.b += 0.0000002 * ticks; }
+  if (Keyboard::isKeyDown(KEY_UP))    { camera.a += 0.0002 * delta; }
+  if (Keyboard::isKeyDown(KEY_DOWN))  { camera.a -= 0.0002 * delta; }
+  if (Keyboard::isKeyDown(KEY_A))     { camera.b -= 0.0002 * delta; }
+  if (Keyboard::isKeyDown(KEY_D))     { camera.b += 0.0002 * delta; }
 }
+
+
 
 void Game::render() {
   Display::perspective();
