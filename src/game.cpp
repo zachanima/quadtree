@@ -1,9 +1,15 @@
 #include "game.hpp"
 
+size_t Game::ticks = 0;
+
+
+
 void Game::initialize() {
 }
 
 void Game::update() {
+  const size_t delta = SDL_GetTicks() - ticks;
+  ticks = SDL_GetTicks();
 }
 
 void Game::render() {
