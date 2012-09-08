@@ -16,10 +16,10 @@ void Game::update() {
   ticks = SDL_GetTicks();
 
   if (Keyboard::isKeyDown(KEY_W)) {
-    camera.z -= 0.000005 * (GLdouble)ticks;
+    camera.z -= 0.000005 * ticks;
   }
   if (Keyboard::isKeyDown(KEY_S)) {
-    camera.z += 0.000005 * (GLdouble)ticks;
+    camera.z += 0.000005 * ticks;
   }
 }
 
