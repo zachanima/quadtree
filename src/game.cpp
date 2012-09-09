@@ -19,20 +19,22 @@ void Game::update() {
 
   if (Keyboard::isKeyDown(KEY_W)) {
     quadtree[0]->update(camera.x, camera.y, camera.z);
-    camera.x += sin(camera.b) * cos(camera.a) * 0.002 * delta;
-    camera.y -= sin(camera.a)                 * 0.002 * delta;
-    camera.z -= cos(camera.b) * cos(camera.a) * 0.002 * delta;
+    camera.x += sin(camera.b) * cos(camera.a) * 0.002 * Quadtree::distance * delta;
+    camera.y -= sin(camera.a)                 * 0.002 * Quadtree::distance * delta;
+    camera.z -= cos(camera.b) * cos(camera.a) * 0.002 * Quadtree::distance * delta;
   }
   if (Keyboard::isKeyDown(KEY_S)) {
     quadtree[0]->update(camera.x, camera.y, camera.z);
-    camera.x -= sin(camera.b) * cos(camera.a) * 0.002 * delta;
-    camera.y += sin(camera.a)                 * 0.002 * delta;
-    camera.z += cos(camera.b) * cos(camera.a) * 0.002 * delta;
+    camera.x -= sin(camera.b) * cos(camera.a) * 0.002 * Quadtree::distance * delta;
+    camera.y += sin(camera.a)                 * 0.002 * Quadtree::distance * delta;
+    camera.z += cos(camera.b) * cos(camera.a) * 0.002 * Quadtree::distance * delta;
   }
   if (Keyboard::isKeyDown(KEY_UP))    { camera.a += 0.0002 * delta; }
   if (Keyboard::isKeyDown(KEY_DOWN))  { camera.a -= 0.0002 * delta; }
   if (Keyboard::isKeyDown(KEY_A))     { camera.b -= 0.0002 * delta; }
   if (Keyboard::isKeyDown(KEY_D))     { camera.b += 0.0002 * delta; }
+
+  Quadtree::distance = 65536.0;
 }
 
 

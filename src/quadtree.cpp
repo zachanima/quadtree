@@ -1,5 +1,7 @@
 #include "quadtree.hpp"
 
+GLdouble Quadtree::distance = 0.;
+
 
 
 Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
@@ -120,6 +122,10 @@ void Quadtree::update(GLdouble x, GLdouble y, GLdouble z) {
     children[1] = NULL;
     children[2] = NULL;
     children[3] = NULL;
+  }
+
+  if (distance2(x, y, z) < distance * distance) {
+    distance = sqrt(distance2(x, y, z));
   }
 }
 

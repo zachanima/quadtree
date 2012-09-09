@@ -13,6 +13,8 @@
 
 class Quadtree {
   public:
+    static GLdouble distance;
+
     Quadtree(GLdouble, GLdouble, GLdouble, GLdouble);
     ~Quadtree();
     void update(GLdouble, GLdouble, GLdouble);
