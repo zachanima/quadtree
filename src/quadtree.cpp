@@ -4,7 +4,7 @@ GLdouble Quadtree::distance = 0.;
 
 
 
-Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2, size_t level) {
+Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2, size_t level, unsigned int face) {
   const GLdouble L = (a2 - a1) / CHUNK_SIZE;
 
   box = new GLdouble[4];
@@ -19,31 +19,51 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2, size_t le
   children[3] = NULL;
 
   this->level = level - 1;
+  this->face = face;
 
   // Generate cube.
   vertices = new Vertex[VERTICES];
   size_t i = 0;
   for (size_t b = 0; b < CHUNK_SIZE; b++) {
     for (size_t a = 0; a < CHUNK_SIZE; a++) {
-      vertices[i].position[0] = a1 + L * (a + 0);
-      vertices[i].position[1] = b1 + L * (b + 0);
-      vertices[i].position[2] = 1.;
-      i++;
-
-      vertices[i].position[0] = a1 + L * (a + 1);
-      vertices[i].position[1] = b1 + L * (b + 0);
-      vertices[i].position[2] = 1.;
-      i++;
-
-      vertices[i].position[0] = a1 + L * (a + 1);
-      vertices[i].position[1] = b1 + L * (b + 1);
-      vertices[i].position[2] = 1.;
-      i++;
-
-      vertices[i].position[0] = a1 + L * (a + 0);
-      vertices[i].position[1] = b1 + L * (b + 1);
-      vertices[i].position[2] = 1.;
-      i++;
+      switch (face) {
+        case FRONT:
+          vertices[i].position[0] = a1 + L * (a + 0); vertices[i].position[1] = b1 + L * (b + 0); vertices[i].position[2] = 1.; i++;
+          vertices[i].position[0] = a1 + L * (a + 1); vertices[i].position[1] = b1 + L * (b + 0); vertices[i].position[2] = 1.; i++;
+          vertices[i].position[0] = a1 + L * (a + 1); vertices[i].position[1] = b1 + L * (b + 1); vertices[i].position[2] = 1.; i++;
+          vertices[i].position[0] = a1 + L * (a + 0); vertices[i].position[1] = b1 + L * (b + 1); vertices[i].position[2] = 1.; i++;
+          break;
+        case BACK:
+          vertices[i].position[0] = a1 + L * (a + 1); vertices[i].position[1] = b1 + L * (b + 0); vertices[i].position[2] = -1.; i++;
+          vertices[i].position[0] = a1 + L * (a + 0); vertices[i].position[1] = b1 + L * (b + 0); vertices[i].position[2] = -1.; i++;
+          vertices[i].position[0] = a1 + L * (a + 0); vertices[i].position[1] = b1 + L * (b + 1); vertices[i].position[2] = -1.; i++;
+          vertices[i].position[0] = a1 + L * (a + 1); vertices[i].position[1] = b1 + L * (b + 1); vertices[i].position[2] = -1.; i++;
+          break;
+        case TOP:
+          vertices[i].position[0] = a1 + L * (a + 1); vertices[i].position[1] = 1.f; vertices[i].position[2] = b1 + L * (b + 0); i++;
+          vertices[i].position[0] = a1 + L * (a + 0); vertices[i].position[1] = 1.f; vertices[i].position[2] = b1 + L * (b + 0); i++;
+          vertices[i].position[0] = a1 + L * (a + 0); vertices[i].position[1] = 1.f; vertices[i].position[2] = b1 + L * (b + 1); i++;
+          vertices[i].position[0] = a1 + L * (a + 1); vertices[i].position[1] = 1.f; vertices[i].position[2] = b1 + L * (b + 1); i++;
+          break;
+        case BOTTOM:
+          vertices[i].position[0] = a1 + L * (a + 0); vertices[i].position[1] = -1.f; vertices[i].position[2] = b1 + L * (b + 0); i++;
+          vertices[i].position[0] = a1 + L * (a + 1); vertices[i].position[1] = -1.f; vertices[i].position[2] = b1 + L * (b + 0); i++;
+          vertices[i].position[0] = a1 + L * (a + 1); vertices[i].position[1] = -1.f; vertices[i].position[2] = b1 + L * (b + 1); i++;
+          vertices[i].position[0] = a1 + L * (a + 0); vertices[i].position[1] = -1.f; vertices[i].position[2] = b1 + L * (b + 1); i++;
+          break;
+        case LEFT:
+          vertices[i].position[0] = -1.f; vertices[i].position[1] = b1 + L * (b + 1); vertices[i].position[2] = a1 + L * (a + 0); i++;
+          vertices[i].position[0] = -1.f; vertices[i].position[1] = b1 + L * (b + 0); vertices[i].position[2] = a1 + L * (a + 0); i++;
+          vertices[i].position[0] = -1.f; vertices[i].position[1] = b1 + L * (b + 0); vertices[i].position[2] = a1 + L * (a + 1); i++;
+          vertices[i].position[0] = -1.f; vertices[i].position[1] = b1 + L * (b + 1); vertices[i].position[2] = a1 + L * (a + 1); i++;
+          break;
+        case RIGHT:
+          vertices[i].position[0] = 1.f; vertices[i].position[1] = b1 + L * (b + 0); vertices[i].position[2] = a1 + L * (a + 0); i++;
+          vertices[i].position[0] = 1.f; vertices[i].position[1] = b1 + L * (b + 1); vertices[i].position[2] = a1 + L * (a + 0); i++;
+          vertices[i].position[0] = 1.f; vertices[i].position[1] = b1 + L * (b + 1); vertices[i].position[2] = a1 + L * (a + 1); i++;
+          vertices[i].position[0] = 1.f; vertices[i].position[1] = b1 + L * (b + 0); vertices[i].position[2] = a1 + L * (a + 1); i++;
+          break;
+      }
     }
   }
 
@@ -135,10 +155,10 @@ void Quadtree::render() {
 void Quadtree::divide() {
   GLdouble ca = 0.5 * (box[0] + box[2]); // Center A.
   GLdouble cb = 0.5 * (box[1] + box[3]); // Center B.
-  children[0] = new Quadtree(box[0], box[1], ca,     cb, level);
-  children[1] = new Quadtree(ca,     box[1], box[2], cb, level);
-  children[2] = new Quadtree(box[0], cb,     ca,     box[3], level);
-  children[3] = new Quadtree(ca,     cb,     box[2], box[3], level);
+  children[0] = new Quadtree(box[0], box[1], ca,     cb, level, face);
+  children[1] = new Quadtree(ca,     box[1], box[2], cb, level, face);
+  children[2] = new Quadtree(box[0], cb,     ca,     box[3], level, face);
+  children[3] = new Quadtree(ca,     cb,     box[2], box[3], level, face);
 }
 
 

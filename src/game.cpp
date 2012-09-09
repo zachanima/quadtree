@@ -7,7 +7,9 @@ Quadtree *Game::quadtree[6] = { NULL, NULL, NULL, NULL, NULL, NULL };
 
 
 void Game::initialize() {
-  quadtree[0] = new Quadtree(-1., -1., 1., 1., 16);
+  for (size_t i = 0; i < 6; i++) {
+    quadtree[i] = new Quadtree(-1., -1., 1., 1., 16, i);
+  }
   camera.z = 8.;
 }
 
@@ -18,13 +20,17 @@ void Game::update() {
   ticks = SDL_GetTicks();
 
   if (Keyboard::isKeyDown(KEY_W)) {
-    quadtree[0]->update(camera.x, camera.y, camera.z);
+    for (size_t i = 0; i < 6; i++) {
+      quadtree[i]->update(camera.x, camera.y, camera.z);
+    }
     camera.x += sin(camera.b) * cos(camera.a) * 0.0025 * Quadtree::distance * delta;
     camera.y -= sin(camera.a)                 * 0.0025 * Quadtree::distance * delta;
     camera.z -= cos(camera.b) * cos(camera.a) * 0.0025 * Quadtree::distance * delta;
   }
   if (Keyboard::isKeyDown(KEY_S)) {
-    quadtree[0]->update(camera.x, camera.y, camera.z);
+    for (size_t i = 0; i < 6; i++) {
+      quadtree[i]->update(camera.x, camera.y, camera.z);
+    }
     camera.x -= sin(camera.b) * cos(camera.a) * 0.0025 * Quadtree::distance * delta;
     camera.y += sin(camera.a)                 * 0.0025 * Quadtree::distance * delta;
     camera.z += cos(camera.b) * cos(camera.a) * 0.0025 * Quadtree::distance * delta;
@@ -51,6 +57,8 @@ void Game::render() {
   glCullFace(GL_BACK);
   glColor3d(1., 1., 1.);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-  quadtree[0]->render();
+  for (size_t i = 0; i < 6; i++) {
+    quadtree[i]->render();
+  }
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

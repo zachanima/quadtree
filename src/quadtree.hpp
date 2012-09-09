@@ -12,11 +12,20 @@
 #define VERTICES (CHUNK_SIZE * CHUNK_SIZE * 4)
 #define INDICES (VERTICES)
 
+enum {
+  FRONT,
+  BACK,
+  TOP,
+  BOTTOM,
+  LEFT,
+  RIGHT
+};
+
 class Quadtree {
   public:
     static GLdouble distance;
 
-    Quadtree(GLdouble, GLdouble, GLdouble, GLdouble, size_t);
+    Quadtree(GLdouble, GLdouble, GLdouble, GLdouble, size_t, unsigned int);
     ~Quadtree();
     void update(GLdouble, GLdouble, GLdouble);
     void render();
@@ -26,6 +35,7 @@ class Quadtree {
     GLdouble *box;
     Quadtree *children[4];
     size_t level;
+    unsigned int face;
     GLuint vertexbuffer;
     GLuint indexbuffer;
     void divide();
