@@ -26,9 +26,6 @@ class Quadtree {
     Quadtree *children[4];
     GLuint vertexbuffer;
     GLuint indexbuffer;
-    /*
-    GLuint list;
-    */
     void divide();
     GLdouble distance2(GLdouble, GLdouble, GLdouble);
 };
