@@ -6,6 +6,7 @@
 #include "lwcppgl/display.hpp"
 
 #include "vertex.hpp"
+#include "simplex.hpp"
 
 #define CHUNK_SIZE (16)
 #define VERTICES (CHUNK_SIZE * CHUNK_SIZE * 4)
@@ -15,7 +16,7 @@ class Quadtree {
   public:
     static GLdouble distance;
 
-    Quadtree(GLdouble, GLdouble, GLdouble, GLdouble);
+    Quadtree(GLdouble, GLdouble, GLdouble, GLdouble, size_t);
     ~Quadtree();
     void update(GLdouble, GLdouble, GLdouble);
     void render();
@@ -24,6 +25,7 @@ class Quadtree {
     Vertex *vertices;
     GLdouble *box;
     Quadtree *children[4];
+    size_t level;
     GLuint vertexbuffer;
     GLuint indexbuffer;
     void divide();

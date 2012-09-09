@@ -7,7 +7,7 @@ Quadtree *Game::quadtree[6] = { NULL, NULL, NULL, NULL, NULL, NULL };
 
 
 void Game::initialize() {
-  quadtree[0] = new Quadtree(-1., -1., 1., 1.);
+  quadtree[0] = new Quadtree(-1., -1., 1., 1., 16);
   camera.z = 8.;
 }
 
@@ -48,6 +48,8 @@ void Game::render() {
   glTranslated(-camera.x, -camera.y, -camera.z);
 
   glColor3d(1., 1., 1.);
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   quadtree[0]->render();
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

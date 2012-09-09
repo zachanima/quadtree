@@ -4,7 +4,7 @@ GLdouble Quadtree::distance = 0.;
 
 
 
-Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
+Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2, size_t level) {
   const GLdouble L = (a2 - a1) / CHUNK_SIZE;
 
   box = new GLdouble[4];
@@ -17,6 +17,8 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
   children[1] = NULL;
   children[2] = NULL;
   children[3] = NULL;
+
+  this->level = level - 1;
 
   // Generate cube.
   vertices = new Vertex[VERTICES];
@@ -50,9 +52,10 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2) {
     const GLdouble x2 = vertices[i].position[0] * vertices[i].position[0];
     const GLdouble y2 = vertices[i].position[1] * vertices[i].position[1];
     const GLdouble z2 = vertices[i].position[2] * vertices[i].position[2];
-    vertices[i].position[0] *= sqrt(1 - y2 / 2 - z2 / 2 + y2 * z2 / 3);
-    vertices[i].position[1] *= sqrt(1 - x2 / 2 - z2 / 2 + x2 * z2 / 3);
-    vertices[i].position[2] *= sqrt(1 - x2 / 2 - y2 / 2 + x2 * y2 / 3);
+    const GLdouble noise = simplexNoise(24, 0.5, 0.03125, vertices[i].position[0], vertices[i].position[1], vertices[i].position[2], 0.) + 1.;
+    vertices[i].position[0] *= sqrt(1 - y2 / 2 - z2 / 2 + y2 * z2 / 3) * noise;
+    vertices[i].position[1] *= sqrt(1 - x2 / 2 - z2 / 2 + x2 * z2 / 3) * noise;
+    vertices[i].position[2] *= sqrt(1 - x2 / 2 - y2 / 2 + x2 * y2 / 3) * noise;
   }
 
   // Compile vertex buffer object.
@@ -87,13 +90,15 @@ void Quadtree::update(GLdouble x, GLdouble y, GLdouble z) {
   bool split = distance2(x, y, z) < (box[2] - box[0]) * (box[2] - box[0]) * 4.;
 
   if (split) {
-    if (children[0] == NULL) {
+    if (children[0] == NULL && level > 0) {
       divide();
     }
-    children[0]->update(x, y, z);
-    children[1]->update(x, y, z);
-    children[2]->update(x, y, z);
-    children[3]->update(x, y, z);
+    if (children[0] != NULL) {
+      children[0]->update(x, y, z);
+      children[1]->update(x, y, z);
+      children[2]->update(x, y, z);
+      children[3]->update(x, y, z);
+    }
   } else if (children[0] != NULL) {
     delete children[0];
     delete children[1];
@@ -130,10 +135,10 @@ void Quadtree::render() {
 void Quadtree::divide() {
   GLdouble ca = 0.5 * (box[0] + box[2]); // Center A.
   GLdouble cb = 0.5 * (box[1] + box[3]); // Center B.
-  children[0] = new Quadtree(box[0], box[1], ca,     cb);
-  children[1] = new Quadtree(ca,     box[1], box[2], cb);
-  children[2] = new Quadtree(box[0], cb,     ca,     box[3]);
-  children[3] = new Quadtree(ca,     cb,     box[2], box[3]);
+  children[0] = new Quadtree(box[0], box[1], ca,     cb, level);
+  children[1] = new Quadtree(ca,     box[1], box[2], cb, level);
+  children[2] = new Quadtree(box[0], cb,     ca,     box[3], level);
+  children[3] = new Quadtree(ca,     cb,     box[2], box[3], level);
 }
 
 
