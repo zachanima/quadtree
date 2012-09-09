@@ -52,7 +52,7 @@ Quadtree::Quadtree(GLdouble a1, GLdouble b1, GLdouble a2, GLdouble b2, size_t le
     const GLdouble x2 = vertices[i].position[0] * vertices[i].position[0];
     const GLdouble y2 = vertices[i].position[1] * vertices[i].position[1];
     const GLdouble z2 = vertices[i].position[2] * vertices[i].position[2];
-    const GLdouble noise = simplexNoise(24, 0.5, 0.03125, vertices[i].position[0], vertices[i].position[1], vertices[i].position[2], 0.) + 1.;
+    const GLdouble noise = simplexNoise(20, 0.5, 0.125, vertices[i].position[0], vertices[i].position[1], vertices[i].position[2], 0.) + 1.;
     vertices[i].position[0] *= sqrt(1 - y2 / 2 - z2 / 2 + y2 * z2 / 3) * noise;
     vertices[i].position[1] *= sqrt(1 - x2 / 2 - z2 / 2 + x2 * z2 / 3) * noise;
     vertices[i].position[2] *= sqrt(1 - x2 / 2 - y2 / 2 + x2 * y2 / 3) * noise;

@@ -19,15 +19,15 @@ void Game::update() {
 
   if (Keyboard::isKeyDown(KEY_W)) {
     quadtree[0]->update(camera.x, camera.y, camera.z);
-    camera.x += sin(camera.b) * cos(camera.a) * 0.002 * Quadtree::distance * delta;
-    camera.y -= sin(camera.a)                 * 0.002 * Quadtree::distance * delta;
-    camera.z -= cos(camera.b) * cos(camera.a) * 0.002 * Quadtree::distance * delta;
+    camera.x += sin(camera.b) * cos(camera.a) * 0.0025 * Quadtree::distance * delta;
+    camera.y -= sin(camera.a)                 * 0.0025 * Quadtree::distance * delta;
+    camera.z -= cos(camera.b) * cos(camera.a) * 0.0025 * Quadtree::distance * delta;
   }
   if (Keyboard::isKeyDown(KEY_S)) {
     quadtree[0]->update(camera.x, camera.y, camera.z);
-    camera.x -= sin(camera.b) * cos(camera.a) * 0.002 * Quadtree::distance * delta;
-    camera.y += sin(camera.a)                 * 0.002 * Quadtree::distance * delta;
-    camera.z += cos(camera.b) * cos(camera.a) * 0.002 * Quadtree::distance * delta;
+    camera.x -= sin(camera.b) * cos(camera.a) * 0.0025 * Quadtree::distance * delta;
+    camera.y += sin(camera.a)                 * 0.0025 * Quadtree::distance * delta;
+    camera.z += cos(camera.b) * cos(camera.a) * 0.0025 * Quadtree::distance * delta;
   }
   if (Keyboard::isKeyDown(KEY_UP))    { camera.a += 0.0002 * delta; }
   if (Keyboard::isKeyDown(KEY_DOWN))  { camera.a -= 0.0002 * delta; }
@@ -47,9 +47,9 @@ void Game::render() {
   glRotated(camera.c * 360. / 6.28, 0., 0., 1.);
   glTranslated(-camera.x, -camera.y, -camera.z);
 
-  glColor3d(1., 1., 1.);
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
+  glColor3d(1., 1., 1.);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   quadtree[0]->render();
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
